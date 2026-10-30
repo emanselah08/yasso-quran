@@ -1,22 +1,175 @@
-<!doctype html>
-<html lang="en">
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>My App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123d32">
+<title>القرآن الكريم</title>
 <style>
-  html,body{height:100%;margin:0}
-  body{display:flex;align-items:center;justify-content:center;background:#0f1115;color:#e8e8ea;
-       font:16px/1.5 system-ui,sans-serif;padding:24px;box-sizing:border-box;text-align:center}
-  main{max-width:30rem}
-  h1{font-size:1.4rem;margin:0 0 .5rem}
-  p{margin:0;opacity:.75}
+*{box-sizing:border-box}
+body{margin:0;background:#f5f3eb;color:#20352d;font-family:Tahoma,Arial,sans-serif}
+header{background:#123d32;color:white;text-align:center;padding:25px 15px}
+header h1{margin:0 0 8px;font-size:27px}
+header p{margin:0;color:#d9e8df}
+main{max-width:850px;margin:auto;padding:18px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+select,input,button{font:inherit;border-radius:10px;padding:12px;border:1px solid #c9d3ca}
+select,input{background:white;flex:1;min-width:150px}
+button{background:#17634d;color:white;border:0;cursor:pointer}
+button:disabled{opacity:.5}
+#status{text-align:center;color:#68786e;margin:15px}
+.surah-title{text-align:center;background:#e4ebdf;padding:18px;border-radius:14px;margin:15px 0}
+.surah-title h2{margin:0 0 6px}
+.ayah{background:white;border:1px solid #e5e5dc;border-radius:13px;padding:18px;margin:12px 0;line-height:2.2;font-size:23px}
+.ayah small{display:inline-block;color:#17634d;font-size:13px;margin-left:8px}
+.ayah button{font-size:14px;padding:7px 12px;margin-top:8px}
+footer{text-align:center;padding:25px;color:#778078;font-size:13px}
+audio{width:100%;margin:12px 0}
 </style>
 </head>
 <body>
+<header>
+<h1>📖 القرآن الكريم</h1>
+<p>تلاوة وتدبر • القرآن الكريم كاملًا</p>
+</header>
+
 <main>
-  <h1>My App</h1>
-  <p>Replace this page with your own website files in the <b>public</b> folder, or fill in the <b>url</b> field when you run the build.</p>
+<div class="controls">
+<select id="surah">
+<option>جاري تحميل السور...</option>
+</select>
+<input id="search" type="search" placeholder="ابحث في آيات السورة...">
+</div>
+
+<div class="surah-title">
+<h2 id="surahName">القرآن الكريم</h2>
+<div id="surahInfo">اختر سورة للبدء</div>
+</div>
+
+<div id="status">جاري تحميل القرآن الكريم...</div>
+<audio id="player" controls></audio>
+<div id="ayahs"></div>
 </main>
+
+<footer>نسأل الله أن يجعل القرآن نورًا لقلوبنا</footer>
+
+<script>
+const API = "https://api.alquran.cloud/v1";
+const surahSelect = document.getElementById("surah");
+const ayahsBox = document.getElementById("ayahs");
+const statusBox = document.getElementById("status");
+const player = document.getElementById("player");
+const searchBox = document.getElementById("search");
+
+let currentAyahs = [];
+let audioAyahs = [];
+
+async function loadSurahs(){
+  try{
+    const response = await fetch(API + "/surah");
+    const result = await response.json();
+    if(result.code !== 200) throw new Error("تعذر تحميل السور");
+
+    surahSelect.innerHTML = "";
+    result.data.forEach(s => {
+      const option = document.createElement("option");
+      option.value = s.number;
+      option.textContent = s.number + " - " + s.name;
+      surahSelect.appendChild(option);
+    });
+
+    await loadSurah(1);
+  }catch(error){
+    statusBox.textContent = "تعذر الاتصال. تأكد من الإنترنت ثم أعد تحميل الصفحة.";
+  }
+}
+
+async function loadSurah(number){
+  statusBox.textContent = "جاري تحميل السورة...";
+  ayahsBox.innerHTML = "";
+  player.pause();
+  player.removeAttribute("src");
+
+  try{
+    const [textResponse,audioResponse] = await Promise.all([
+      fetch(API + "/surah/" + number + "/quran-uthmani"),
+      fetch(API + "/surah/" + number + "/ar.alafasy")
+    ]);
+
+    const textData = await textResponse.json();
+    const audioData = await audioResponse.json();
+
+    if(textData.code !== 200 || audioData.code !== 200)
+      throw new Error("تعذر تحميل السورة");
+
+    currentAyahs = textData.data.ayahs;
+    audioAyahs = audioData.data.ayahs;
+
+    document.getElementById("surahName").textContent =
+      textData.data.name;
+
+    document.getElementById("surahInfo").textContent =
+      "عدد الآيات: " + textData.data.numberOfAyahs +
+      " • " + (textData.data.revelationType === "Meccan" ? "مكية" : "مدنية");
+
+    showAyahs(currentAyahs);
+    statusBox.textContent = "تم تحميل السورة بنجاح";
+  }catch(error){
+    statusBox.textContent = "حصلت مشكلة في التحميل. حاول مرة أخرى.";
+  }
+}
+
+function showAyahs(list){
+  ayahsBox.innerHTML = "";
+
+  if(list.length === 0){
+    ayahsBox.textContent = "لا توجد نتائج.";
+    return;
+  }
+
+  list.forEach(ayah => {
+    const box = document.createElement("section");
+    box.className = "ayah";
+
+    const text = document.createElement("div");
+    text.textContent = ayah.text;
+
+    const number = document.createElement("small");
+    number.textContent = "آية " + ayah.numberInSurah;
+
+    const playButton = document.createElement("button");
+    playButton.textContent = "▶ تشغيل الآية";
+    playButton.onclick = () => {
+      const audio = audioAyahs.find(a =>
+        a.numberInSurah === ayah.numberInSurah
+      );
+      if(audio && audio.audio){
+        player.src = audio.audio;
+        player.play();
+      }
+    };
+
+    box.appendChild(text);
+    box.appendChild(number);
+    box.appendChild(document.createElement("br"));
+    box.appendChild(playButton);
+    ayahsBox.appendChild(box);
+  });
+}
+
+surahSelect.addEventListener("change", () => {
+  searchBox.value = "";
+  loadSurah(surahSelect.value);
+});
+
+searchBox.addEventListener("input", () => {
+  const query = searchBox.value.trim();
+  const filtered = currentAyahs.filter(a => a.text.includes(query));
+  showAyahs(filtered);
+});
+
+loadSurahs();
+</script>
 </body>
 </html>
