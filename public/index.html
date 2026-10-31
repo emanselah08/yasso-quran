@@ -1,435 +1,107 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#123d32">
-<title>القرآن الكريم</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#063d32">
+<title>نور القرآن</title>
 <style>
-:root{--bg:#f5f3eb;--card:#fff;--text:#20352d;--muted:#68786e;--accent:#17634d;--border:#e1e5dc}
-body.dark{--bg:#101a17;--card:#1c2924;--text:#edf5ef;--muted:#b5c4ba;--accent:#65c49a;--border:#35463d}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
-header{background:#123d32;color:white;text-align:center;padding:23px 12px}
-header h1{margin:0 0 8px}
-header p{margin:0;color:#d9e8df}
-main{max-width:850px;margin:auto;padding:16px}
-.top{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}
-select,button{font:inherit;border-radius:10px;padding:11px;border:1px solid var(--border)}
-select{background:var(--card);color:var(--text);flex:1;min-width:140px}
-button{background:var(--accent);color:white;border:0;cursor:pointer}
-button.secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
-.panel,.surah-title{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:17px;margin:16px 0}
-.surah-title{text-align:center}
-.surah-title h2{margin:0 0 8px}
-#status{text-align:center;color:var(--muted);padding:12px}
-.ayah{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:17px;margin:12px 0;line-height:2.2;font-size:23px}
-.ayah small{display:block;color:var(--muted);font-size:13px;margin-top:8px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.actions button{font-size:14px;padding:8px 11px}
-.tafsir{display:none;background:var(--bg);border-radius:10px;padding:12px;margin-top:12px;font-size:16px;line-height:2}
-.tafsir.show{display:block}
-audio{width:100%;margin:12px 0}
-.panel h2{margin-top:0}
-.panel p{line-height:1.8}
-.row{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}
-.row select{min-width:130px}
-.quiz-question{font-size:22px;line-height:2.2;margin:15px 0}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.choices button{background:var(--bg);color:var(--text);border:1px solid var(--border)}
-.choices button:disabled{opacity:1}
-#quizResult{font-weight:bold;margin-top:12px;line-height:1.8}
-footer{text-align:center;padding:22px;color:var(--muted);font-size:13px}
+:root{--bg:#061f1b;--panel:#0d332b;--panel2:#124338;--text:#fff8e7;--muted:#c7d8cf;--gold:#d9b45b;--line:#2b5a4e;--shadow:0 12px 30px #0003}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#12483b 0,#061f1b 48%,#041713 100%);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}body.light{--bg:#f4f1e6;--panel:#fffdf5;--panel2:#e9f0e8;--text:#173b31;--muted:#536b61;--line:#d5dfd3;background:#f4f1e6}
+header{position:sticky;top:0;z-index:5;background:#062820ed;border-bottom:1px solid var(--line);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;backdrop-filter:blur(12px)}body.light header{background:#eaf2e9ed}
+.brand{font-weight:bold;color:var(--gold);font-size:19px}.greeting{font-size:13px;color:var(--muted);margin-top:4px}.iconbtn,.btn{border:1px solid var(--gold);background:transparent;color:var(--text);border-radius:13px;padding:10px 12px;font-size:14px;cursor:pointer}.btn.primary{background:var(--gold);color:#17352b;font-weight:bold}.btn:disabled{opacity:.45}
+main{max-width:850px;margin:auto;padding:18px 14px 90px}.hero{border:1px solid #a88b45;background:linear-gradient(140deg,#155342,#092b24 70%);border-radius:24px;padding:22px 18px;box-shadow:var(--shadow);margin-bottom:16px;text-align:center}.hero .bism{font-size:27px;color:#f0d58b;line-height:1.8}.hero p{color:#d2e2d8;margin:6px 0 0}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tile,.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:var(--shadow)}.tile{min-height:125px;cursor:pointer;text-align:right;color:var(--text)}.tile .emoji{font-size:28px}.tile h3{margin:10px 0 5px}.tile p{margin:0;color:var(--muted);font-size:13px}.section-title{color:var(--gold);margin:22px 0 12px}.hidden{display:none!important}.drawer-bg{position:fixed;inset:0;background:#0008;z-index:10}.drawer{position:fixed;top:0;bottom:0;right:0;width:min(82vw,330px);background:var(--panel);z-index:11;padding:18px;overflow:auto;border-left:1px solid var(--gold);box-shadow:var(--shadow)}.drawer h2{color:var(--gold)}.menuitem{display:block;width:100%;text-align:right;padding:13px 10px;margin:5px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);font-size:16px;cursor:pointer}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.field,select,input{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:15px;min-width:0;width:100%}.surah-list{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.surah{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:13px;border-radius:14px;text-align:right;cursor:pointer}.surah small{display:block;color:var(--muted);margin-top:5px}.ayah{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:17px;margin:12px 0}.ayah-text{font-size:24px;line-height:2.15;text-align:center;color:var(--text)}.ayah-meta{color:var(--gold);font-size:12px;text-align:center;margin:7px}.ayah-actions{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}.mini{padding:7px 9px;font-size:12px;border-radius:10px}.audio-box{background:var(--panel);border:1px solid var(--gold);padding:15px;border-radius:16px;margin:12px 0}.audio-box audio{width:100%;margin-top:10px}.counter{font-size:56px;text-align:center;color:var(--gold);padding:20px}.bigbtn{font-size:22px;width:100%;padding:20px;border-radius:18px}.dhikr{font-size:20px;line-height:2;text-align:center}.notice{color:var(--muted);font-size:13px;line-height:1.8}.pill{display:inline-block;border:1px solid var(--gold);border-radius:99px;padding:5px 10px;color:var(--gold);font-size:12px}
+@media(min-width:600px){.surah-list{grid-template-columns:repeat(3,1fr)}main{padding-top:25px}.hero{padding:30px}.hero .bism{font-size:32px}}
 </style>
 </head>
 <body>
 <header>
-<h1>📖 القرآن الكريم</h1>
-<p>تلاوة وتدبر وحفظ واختبار</p>
+ <button class="iconbtn" onclick="openMenu()" aria-label="القائمة">☰</button>
+ <div style="flex:1"><div class="brand">☪ نور القرآن</div><div class="greeting" id="greeting">أهلًا بك في رحاب القرآن</div></div>
+ <button class="iconbtn" onclick="toggleTheme()" title="تغيير المظهر">☼</button>
 </header>
-
+<div id="drawerBg" class="drawer-bg hidden" onclick="closeMenu()"></div>
+<nav id="drawer" class="drawer hidden">
+ <h2>☪ القائمة الرئيسية</h2>
+ <button class="menuitem" onclick="showPage('home')">⌂ الرئيسية</button>
+ <button class="menuitem" onclick="showPage('quran')">📖 القرآن الكريم</button>
+ <button class="menuitem" onclick="showPage('tasbih')">📿 المسبحة الإلكترونية</button>
+ <button class="menuitem" onclick="showPage('adhkar')">🤲 الأذكار</button>
+ <button class="menuitem" onclick="showPage('favorites')">⭐ الآيات المفضلة</button>
+ <button class="menuitem" onclick="showPage('lastread')">🔖 آخر موضع قراءة</button>
+ <button class="menuitem" onclick="showPage('quiz')">🧠 اختبر حفظك</button>
+ <button class="menuitem" onclick="showPage('settings')">⚙️ الإعدادات وتغيير الاسم</button>
+ <p class="notice">يحتاج القرآن والتفسير والصوت إلى اتصال بالإنترنت. المسبحة والأذكار والإعدادات تعمل دون اتصال.</p>
+</nav>
 <main>
-<div class="top">
-<select id="surah"><option>جاري تحميل السور...</option></select>
-<button class="secondary" id="themeBtn">🌙 الوضع الداكن</button>
-</div>
-
-<div class="surah-title">
-<h2 id="surahName">القرآن الكريم</h2>
-<div id="surahInfo">اختر سورة للبدء</div>
-</div>
-
-<div id="status">جاري تحميل السور...</div>
-
-<section class="panel">
-<h2>🎧 استمع إلى سورة كاملة</h2>
-<p>اختر القارئ والسورة، ثم اضغط تشغيل للاستماع إلى السورة كاملة.</p>
-<div class="row">
-<select id="reciter">
-<option value="">جاري تحميل القراء...</option>
-</select>
-<select id="audioSurah">
-<option value="">اختر السورة</option>
-</select>
-</div>
-<button id="playFull">▶ تشغيل السورة كاملة</button>
-<audio id="fullPlayer" controls preload="none"></audio>
-<div id="audioStatus" style="color:var(--muted);font-size:14px;margin-top:8px">
-جاري تحميل قائمة القراء...
-</div>
+<section id="page-home">
+ <div class="hero"><div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><p>وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا</p><p style="margin-top:12px">اجعل لقلبك نصيبًا من نور القرآن كل يوم</p></div>
+ <div class="tiles">
+  <button class="tile" onclick="showPage('quran')"><div class="emoji">📖</div><h3>القرآن الكريم</h3><p>تصفح السور واستمع وتدبّر</p></button>
+  <button class="tile" onclick="showPage('tasbih')"><div class="emoji">📿</div><h3>المسبحة الإلكترونية</h3><p>سبّح واذكر الله في كل وقت</p></button>
+ </div>
+ <p class="notice" style="text-align:center;margin-top:18px">بذكر الله تطمئن القلوب</p>
 </section>
-
-<section class="panel">
-<h2>🔁 إعدادات تكرار الآية</h2>
-<p>اختر عدد مرات تكرار الآية عند تشغيلها.</p>
-<select id="repeatCount">
-<option value="1">مرة واحدة</option>
-<option value="3">3 مرات</option>
-<option value="5">5 مرات</option>
-<option value="10">10 مرات</option>
-<option value="20">20 مرة</option>
-</select>
+<section id="page-quran" class="hidden">
+ <h2 class="section-title">📖 القرآن الكريم</h2>
+ <p class="notice">اختر سورة للقراءة أو الاستماع. يمكنك تكرار الآية أو عرض تفسيرها.</p>
+ <div id="surahStatus" class="notice">جارٍ تحميل قائمة السور...</div><div id="surahList" class="surah-list"></div>
+ <div id="reader" class="hidden">
+  <div class="card"><button class="btn" onclick="backToSurahs()">← قائمة السور</button><h2 id="surahTitle" style="color:var(--gold);text-align:center"></h2>
+   <div class="row"><select id="reciter"><option value="ar.alafasy">مشاري العفاسي</option><option value="ar.abdulbasitmurattal">عبد الباسط عبد الصمد</option><option value="ar.abdurrahmaansudais">عبد الرحمن السديس</option><option value="ar.mahermuaiqly">ماهر المعيقلي</option><option value="ar.minshawi">محمد صديق المنشاوي</option><option value="ar.husary">محمود خليل الحصري</option><option value="ar.shaatree">أبو بكر الشاطري</option><option value="ar.ahmedajamy">أحمد العجمي</option><option value="ar.muhammadayyoub">محمد أيوب</option><option value="ar.muhammadjibreel">محمد جبريل</option></select><button class="btn primary" onclick="playWholeSurah()">▶ استمع للسورة كاملة</button></div>
+   <div id="audioStatus" class="notice"></div><div id="wholeAudio" class="audio-box hidden"><div id="audioLabel">تلاوة السورة</div><audio id="surahAudio" controls></audio></div>
+  </div>
+  <div id="ayahList"></div>
+ </div>
 </section>
-
-<div id="ayahs"></div>
-
-<section class="panel">
-<h2>🧠 اختبر حفظك</h2>
-<p>أكمل الآية واختر الكلمة الصحيحة من بين الاختيارات:</p>
-<div id="quizQuestion" class="quiz-question">اختر سورة أولًا لبدء الاختبار.</div>
-<div id="quizChoices" class="choices"></div>
-<div id="quizResult"></div>
-<button id="newQuestion" style="margin-top:15px">سؤال جديد</button>
+<section id="page-tasbih" class="hidden">
+ <h2 class="section-title">📿 المسبحة الإلكترونية</h2><div class="card"><div id="counter" class="counter">0</div><div class="dhikr" id="tasbihText">سُبْحَانَ اللَّهِ</div><button class="btn primary bigbtn" onclick="countTasbih()">سبّح</button><div class="row" style="margin-top:12px"><button class="btn" onclick="changeDhikr()">تغيير الذكر</button><button class="btn" onclick="resetTasbih()">تصفير العدّاد</button></div><p class="notice">يُحفظ العدّاد على هذا الجهاز.</p></div>
 </section>
+<section id="page-adhkar" class="hidden"><h2 class="section-title">🤲 الأذكار</h2><div class="row"><button class="btn primary" onclick="showAdhkar('morning')">أذكار الصباح</button><button class="btn" onclick="showAdhkar('evening')">أذكار المساء</button><button class="btn" onclick="showAdhkar('sleep')">النوم</button><button class="btn" onclick="showAdhkar('wake')">الاستيقاظ</button></div><div id="adhkarContent" style="margin-top:14px"></div><p class="notice">هذه مجموعة مختصرة للتذكير وليست حصرًا لجميع الأذكار والأعداد الواردة في المصادر.</p></section>
+<section id="page-favorites" class="hidden"><h2 class="section-title">⭐ الآيات المفضلة</h2><div id="favoritesList"></div></section>
+<section id="page-lastread" class="hidden"><h2 class="section-title">🔖 آخر موضع قراءة</h2><div class="card" id="lastReadBox">لم تحفظ موضع قراءة بعد. افتح سورة واضغط «حفظ الموضع» عند الآية المطلوبة.</div></section>
+<section id="page-quiz" class="hidden"><h2 class="section-title">🧠 اختبر حفظك</h2><div class="card"><p class="notice">حمّل سورة أولًا من صفحة القرآن حتى تعمل أسئلة الاختبار دون اتصال خلال الجلسة.</p><button class="btn primary" onclick="newQuiz()">سؤال جديد</button><div id="quizArea" style="margin-top:14px"></div><div id="quizFeedback" class="notice"></div></div></section>
+<section id="page-settings" class="hidden"><h2 class="section-title">⚙️ الإعدادات</h2><div class="card"><label>الاسم الذي يظهر في الترحيب</label><div class="row" style="margin-top:8px"><input id="nameInput" maxlength="35" placeholder="اكتب اسمك"><button class="btn primary" onclick="saveName()">حفظ الاسم</button></div><div style="margin-top:18px"><button class="btn" onclick="toggleTheme()">تغيير الوضع الفاتح / الداكن</button></div><p class="notice">يتم حفظ الاسم والمظهر على هذا الجهاز فقط.</p></div></section>
 </main>
-
-<footer>نسأل الله أن يجعل القرآن نورًا لقلوبنا</footer>
-
 <script>
-const QURAN_API="https://api.alquran.cloud/v1";
-const AUDIO_API="https://mp3quran.net/api/v3";
-
-const wantedReciters=[
-"مشاري العفاسي",
-"ماهر المعيقلي",
-"عبدالرحمن السديس",
-"سعود الشريم",
-"ياسر الدوسري",
-"عبدالباسط عبدالصمد",
-"محمود خليل الحصري",
-"محمد صديق المنشاوي",
-"مصطفى إسماعيل",
-"أحمد العجمي"
-];
-
-const surahSelect=document.getElementById("surah");
-const audioSurah=document.getElementById("audioSurah");
-const reciterSelect=document.getElementById("reciter");
-const ayahsBox=document.getElementById("ayahs");
-const statusBox=document.getElementById("status");
-const fullPlayer=document.getElementById("fullPlayer");
-const audioStatus=document.getElementById("audioStatus");
-
-let currentAyahs=[];
-let audioAyahs=[];
-let reciterReads=[];
-let repeatRemaining=0;
-
-document.getElementById("themeBtn").onclick=()=>{
- document.body.classList.toggle("dark");
- const dark=document.body.classList.contains("dark");
- document.getElementById("themeBtn").textContent=
- dark?"☀️ الوضع الفاتح":"🌙 الوضع الداكن";
-};
-
-async function loadSurahs(){
- try{
-  const response=await fetch(QURAN_API+"/surah");
-  const result=await response.json();
-  if(result.code!==200)throw Error();
-
-  surahSelect.innerHTML="";
-  audioSurah.innerHTML="";
-
-  result.data.forEach(s=>{
-   const a=document.createElement("option");
-   a.value=s.number;
-   a.textContent=s.number+" - "+s.name;
-   surahSelect.appendChild(a);
-
-   const b=document.createElement("option");
-   b.value=s.number;
-   b.textContent=s.number+" - "+s.name;
-   audioSurah.appendChild(b);
-  });
-
-  await loadSurah(1);
- }catch(e){
-  statusBox.textContent="تعذر تحميل السور. تحقق من الإنترنت.";
- }
-}
-
-async function loadSurah(number){
- statusBox.textContent="جاري تحميل السورة...";
- ayahsBox.innerHTML="";
- fullPlayer.pause();
-
- try{
-  const [textResponse,audioResponse]=await Promise.all([
-   fetch(QURAN_API+"/surah/"+number+"/quran-uthmani"),
-   fetch(QURAN_API+"/surah/"+number+"/ar.alafasy")
-  ]);
-
-  const textData=await textResponse.json();
-  const audioData=await audioResponse.json();
-
-  if(textData.code!==200||audioData.code!==200)throw Error();
-
-  currentAyahs=textData.data.ayahs;
-  audioAyahs=audioData.data.ayahs;
-
-  document.getElementById("surahName").textContent=textData.data.name;
-  document.getElementById("surahInfo").textContent=
-   "عدد الآيات: "+textData.data.numberOfAyahs+
-   " • "+(textData.data.revelationType==="Meccan"?"مكية":"مدنية");
-
-  showAyahs();
-  makeQuestion();
-  statusBox.textContent="تم تحميل السورة بنجاح";
- }catch(e){
-  statusBox.textContent="تعذر تحميل السورة. حاول مرة أخرى.";
- }
-}
-
-function playAyah(number){
- const audio=audioAyahs.find(a=>a.numberInSurah===number);
- if(!audio||!audio.audio)return;
-
- repeatRemaining=Number(document.getElementById("repeatCount").value);
- fullPlayer.pause();
- fullPlayer.src=audio.audio;
- fullPlayer.play().catch(()=>{
-  audioStatus.textContent="تعذر تشغيل الصوت. تحقق من الإنترنت.";
- });
-}
-
-fullPlayer.addEventListener("ended",()=>{
- if(repeatRemaining>1){
-  repeatRemaining--;
-  fullPlayer.currentTime=0;
-  fullPlayer.play().catch(()=>{});
- }
-});
-
-function showAyahs(){
- ayahsBox.innerHTML="";
-
- currentAyahs.forEach(ayah=>{
-  const box=document.createElement("section");
-  box.className="ayah";
-
-  const text=document.createElement("div");
-  text.textContent=ayah.text;
-
-  const number=document.createElement("small");
-  number.textContent="آية "+ayah.numberInSurah;
-
-  const actions=document.createElement("div");
-  actions.className="actions";
-
-  const play=document.createElement("button");
-  play.textContent="▶ تشغيل الآية";
-  play.onclick=()=>playAyah(ayah.numberInSurah);
-
-  const tafsirButton=document.createElement("button");
-  tafsirButton.className="secondary";
-  tafsirButton.textContent="📚 التفسير";
-
-  const tafsir=document.createElement("div");
-  tafsir.className="tafsir";
-  tafsir.textContent="اضغط لعرض التفسير.";
-
-  tafsirButton.onclick=async()=>{
-   tafsir.classList.toggle("show");
-   if(tafsir.dataset.loaded)return;
-
-   tafsir.textContent="جاري تحميل التفسير...";
-   try{
-    const response=await fetch(
-     QURAN_API+"/ayah/"+ayah.number+"/ar.muyassar"
-    );
-    const data=await response.json();
-    if(data.code!==200)throw Error();
-
-    tafsir.textContent=data.data.text;
-    tafsir.dataset.loaded="yes";
-   }catch(e){
-    tafsir.textContent="تعذر تحميل التفسير. تحقق من الإنترنت.";
-   }
-  };
-
-  actions.append(play,tafsirButton);
-  box.append(text,number,actions,tafsir);
-  ayahsBox.appendChild(box);
- });
-}
-
-function makeQuestion(){
- const question=document.getElementById("quizQuestion");
- const choices=document.getElementById("quizChoices");
- const result=document.getElementById("quizResult");
-
- choices.innerHTML="";
- result.textContent="";
-
- const candidates=currentAyahs.filter(a=>
-  a.text.trim().split(/\s+/).length>=2
- );
-
- if(!candidates.length){
-  question.textContent="لا توجد آيات كافية للاختبار.";
-  return;
- }
-
- const ayah=candidates[Math.floor(Math.random()*candidates.length)];
- const words=ayah.text.trim().split(/\s+/);
- const answer=words.pop();
-
- question.textContent=words.join(" ")+" ( ........ )";
-
- const wrong=currentAyahs
-  .filter(a=>a.numberInSurah!==ayah.numberInSurah)
-  .map(a=>a.text.trim().split(/\s+/).pop())
-  .filter(w=>w&&w!==answer);
-
- const options=[answer];
-
- while(options.length<3&&wrong.length){
-  const i=Math.floor(Math.random()*wrong.length);
-  const word=wrong.splice(i,1)[0];
-  if(!options.includes(word))options.push(word);
- }
-
- options.sort(()=>Math.random()-.5);
-
- options.forEach(word=>{
-  const button=document.createElement("button");
-  button.textContent=word;
-
-  button.onclick=()=>{
-   Array.from(choices.children).forEach(b=>b.disabled=true);
-
-   if(word===answer){
-    result.textContent="أحسنت! إجابة صحيحة 🌟";
-    result.style.color="#26966a";
-   }else{
-    result.textContent="الإجابة الصحيحة هي: "+answer;
-    result.style.color="#d36b45";
-   }
-  };
-
-  choices.appendChild(button);
- });
-}
-
-async function loadReciters(){
- audioStatus.textContent="جاري تحميل القراء من MP3Quran...";
-
- try{
-  const response=await fetch(AUDIO_API+"/reciters?language=ar");
-  const data=await response.json();
-
-  if(!data.reciters)throw Error();
-
-  reciterReads=[];
-
-  wantedReciters.forEach(wanted=>{
-   const found=data.reciters.find(r=>
-    r.name.includes(wanted) ||
-    (wanted==="عبدالرحمن السديس" && r.name.includes("السديس")) ||
-    (wanted==="عبدالباسط عبدالصمد" && r.name.includes("عبدالباسط")) ||
-    (wanted==="محمود خليل الحصري" && r.name.includes("الحصري")) ||
-    (wanted==="محمد صديق المنشاوي" && r.name.includes("المنشاوي")) ||
-    (wanted==="أحمد العجمي" && r.name.includes("العجمي"))
-   );
-
-   if(found && found.moshaf && found.moshaf.length){
-    const moshaf=found.moshaf.find(m=>
-     m.server && m.surah_list
-    );
-    if(moshaf){
-     reciterReads.push({
-      name:found.name,
-      server:moshaf.server,
-      surahs:moshaf.surah_list.split(",").map(Number)
-     });
-    }
-   }
-  });
-
-  reciterSelect.innerHTML="";
-
-  if(!reciterReads.length){
-   audioStatus.textContent="لم نتمكن من تحميل قائمة القراء.";
-   return;
-  }
-
-  reciterReads.forEach((r,i)=>{
-   const option=document.createElement("option");
-   option.value=i;
-   option.textContent=r.name;
-   reciterSelect.appendChild(option);
-  });
-
-  audioStatus.textContent=
-   "تم تحميل "+reciterReads.length+" من القراء. قد تختلف السور المتاحة لكل قارئ.";
- }catch(e){
-  reciterSelect.innerHTML="<option value=''>تعذر تحميل القراء</option>";
-  audioStatus.textContent="تعذر الاتصال بخدمة القراء. حاول لاحقًا.";
- }
-}
-
-function playFullSurah(){
- if(!reciterReads.length){
-  audioStatus.textContent="قائمة القراء لم تُحمّل بعد.";
-  return;
- }
-
- const reciter=reciterReads[Number(reciterSelect.value)];
- const number=Number(audioSurah.value);
-
- if(!reciter||!number)return;
-
- if(!reciter.surahs.includes(number)){
-  audioStatus.textContent="هذه السورة غير متاحة لهذا القارئ. اختر قارئًا آخر.";
-  return;
- }
-
- const file=String(number).padStart(3,"0")+".mp3";
- const url=reciter.server+file;
-
- fullPlayer.pause();
- fullPlayer.src=url;
- fullPlayer.load();
-
- audioStatus.textContent="جاري تشغيل سورة "+audioSurah.options[audioSurah.selectedIndex].text+
- " بصوت "+reciter.name;
-
- fullPlayer.play().catch(()=>{
-  audioStatus.textContent="تعذر التشغيل. جرّب قارئًا آخر أو تحقق من الإنترنت.";
- });
-}
-
-surahSelect.addEventListener("change",()=>{
- loadSurah(Number(surahSelect.value));
-});
-
-document.getElementById("newQuestion").onclick=makeQuestion;
-document.getElementById("playFull").onclick=playFullSurah;
-
-loadSurahs();
-loadReciters();
+const $=id=>document.getElementById(id);
+const API='https://api.alquran.cloud/v1';
+let surahs=[], currentSurah=null, currentAyahs=[], tasbihs=['سُبْحَانَ اللَّهِ','الْحَمْدُ لِلَّهِ','اللَّهُ أَكْبَرُ','أَسْتَغْفِرُ اللَّهَ','لَا إِلَهَ إِلَّا اللَّهُ'], tasbihIndex=0, quizAnswer='';
+let favorites=JSON.parse(localStorage.getItem('nq_favorites')||'[]');
+function openMenu(){$('drawer').classList.remove('hidden');$('drawerBg').classList.remove('hidden')}
+function closeMenu(){$('drawer').classList.add('hidden');$('drawerBg').classList.add('hidden')}
+function showPage(page){closeMenu();document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));$('page-'+page).classList.remove('hidden');if(page==='favorites')renderFavorites();if(page==='lastread')renderLastRead();if(page==='settings')$('nameInput').value=localStorage.getItem('nq_name')||'';window.scrollTo(0,0)}
+function toggleTheme(){document.body.classList.toggle('light');localStorage.setItem('nq_theme',document.body.classList.contains('light')?'light':'dark')}
+if(localStorage.getItem('nq_theme')==='light')document.body.classList.add('light');
+function setGreeting(){let name=localStorage.getItem('nq_name');$('greeting').textContent=name?'مرحبًا '+name+'، نَوَّرْت التطبيق':'أهلًا بك في رحاب القرآن';}
+function saveName(){let n=$('nameInput').value.trim();if(!n){alert('اكتب الاسم أولًا');return}localStorage.setItem('nq_name',n);setGreeting();alert('تم حفظ الاسم على جهازك')}
+function askName(){if(!localStorage.getItem('nq_name')){let n=prompt('أهلًا بك 🌙 ما الاسم الذي تحب أن يظهر في الترحيب؟');if(n&&n.trim())localStorage.setItem('nq_name',n.trim())}setGreeting()}
+async function loadSurahs(){try{let r=await fetch(API+'/surah');if(!r.ok)throw Error();let j=await r.json();surahs=j.data||[];$('surahStatus').textContent='اختر السورة التي تريد قراءتها';$('surahList').innerHTML=surahs.map(s=>`<button class="surah" onclick="openSurah(${s.number})"><strong>${s.number}. ${s.name}</strong><small>${s.englishName} • ${s.numberOfAyahs} آية • ${s.revelationType==='Meccan'?'مكية':'مدنية'}</small></button>`).join('')}catch(e){$('surahStatus').innerHTML='تعذّر تحميل السور. تأكد من اتصال الإنترنت ثم <button class="btn mini" onclick="loadSurahs()">حاول مجددًا</button>'}}
+async function openSurah(n){showPage('quran');$('surahList').classList.add('hidden');$('surahStatus').classList.add('hidden');$('reader').classList.remove('hidden');$('ayahList').innerHTML='<div class="card">جارٍ تحميل الآيات...</div>';currentSurah=surahs.find(s=>s.number===n)||{number:n,name:'السورة '+n};$('surahTitle').textContent=currentSurah.name;try{let r=await fetch(API+'/surah/'+n+'/quran-uthmani');if(!r.ok)throw Error();let j=await r.json();currentAyahs=j.data.ayahs||[];renderAyahs()}catch(e){$('ayahList').innerHTML='<div class="card">تعذّر تحميل الآيات. تحقق من الإنترنت وحاول مجددًا.</div>'}}
+function backToSurahs(){$('reader').classList.add('hidden');$('surahList').classList.remove('hidden');$('surahStatus').classList.remove('hidden')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function isFav(a){return favorites.some(f=>f.number===a.number)}
+function renderAyahs(){$('ayahList').innerHTML=currentAyahs.map(a=>`<article class="ayah"><div class="ayah-text">${esc(a.text)} <span class="pill">${a.numberInSurah}</span></div><div class="ayah-actions"><button class="btn mini" onclick="playAyah(${a.number})">▶ استمع</button><button class="btn mini" onclick="repeatAyah(${a.number})">🔁 كرر الآية</button><button class="btn mini" onclick="showTafsir(${a.number},${a.numberInSurah})">📚 التفسير</button><button class="btn mini" onclick="toggleFavorite(${a.number})">${isFav(a)?'⭐ محفوظة':'☆ المفضلة'}</button><button class="btn mini" onclick="saveLastRead(${a.numberInSurah})">🔖 حفظ الموضع</button></div><div id="taf-${a.number}" class="notice hidden"></div><div id="aud-${a.number}" class="hidden"></div></article>`).join('')}
+function findAyah(num){return currentAyahs.find(a=>a.number===num)}
+function playAyah(num){let a=findAyah(num);if(!a)return;let holder=$('aud-'+num);holder.classList.remove('hidden');holder.innerHTML=`<audio controls autoplay style="width:100%;margin-top:10px" src="https://cdn.islamic.network/quran/audio/128/ar.alafasy/${num}.mp3"></audio>`}
+function repeatAyah(num){let a=findAyah(num);if(!a)return;let holder=$('aud-'+num);holder.classList.remove('hidden');holder.innerHTML=`<label class="notice">عدد مرات التكرار</label><div class="row"><select id="rep-count-${num}"><option value="3">3 مرات</option><option value="5">5 مرات</option><option value="10">10 مرات</option><option value="20">20 مرة</option></select><button class="btn primary" onclick="startRepeat(${num})">ابدأ التكرار</button></div><audio id="rep-audio-${num}" style="width:100%;margin-top:10px" controls></audio><div id="rep-status-${num}" class="notice"></div>`}
+function startRepeat(num){let audio=$('rep-audio-'+num),count=Number($('rep-count-'+num).value),done=0;audio.src='https://cdn.islamic.network/quran/audio/128/ar.alafasy/'+num+'.mp3';$('rep-status-'+num).textContent='التكرار: 0 / '+count;audio.onended=()=>{done++;$('rep-status-'+num).textContent='التكرار: '+done+' / '+count;if(done<count){audio.currentTime=0;audio.play().catch(()=>{})}};audio.play().catch(()=>{$('rep-status-'+num).textContent='اضغط تشغيل في مشغل الصوت لبدء التكرار'})}
+async function showTafsir(num,localNum){let box=$('taf-'+num);box.classList.remove('hidden');box.textContent='جارٍ تحميل التفسير...';try{let r=await fetch(API+'/ayah/'+num+'/ar.muyassar');if(!r.ok)throw Error();let j=await r.json();box.innerHTML='<strong style="color:var(--gold)">التفسير الميسر:</strong><br>'+esc(j.data.text||'لم يتوفر التفسير لهذه الآية.')}catch(e){box.textContent='تعذّر تحميل التفسير. تأكد من اتصال الإنترنت.'}}
+async function playWholeSurah(){if(!currentSurah)return;let edition=$('reciter').value;$('audioStatus').textContent='جارٍ تجهيز تلاوة السورة كاملة...';$('wholeAudio').classList.remove('hidden');$('audioLabel').textContent='تلاوة '+currentSurah.name+' — '+$('reciter').selectedOptions[0].text;try{let r=await fetch(API+'/surah/'+currentSurah.number+'/'+edition);if(!r.ok)throw Error();let j=await r.json();let list=j.data.ayahs||[];if(!list.length)throw Error();let audio=$('surahAudio'),i=0;audio.onended=()=>{i++;if(i<list.length){audio.src=list[i].audio;audio.play().catch(()=>{})}else $('audioStatus').textContent='انتهت السورة'};audio.src=list[0].audio;$('audioStatus').textContent='التلاوة متتابعة آية بعد آية؛ اترك المشغل يعمل حتى نهاية السورة.';audio.play().catch(()=>{$('audioStatus').textContent='اضغط تشغيل في مشغل الصوت لبدء التلاوة.'})}catch(e){$('audioStatus').textContent='تعذّر تشغيل هذه التلاوة حاليًا. جرّب قارئًا آخر أو تحقق من الإنترنت.'}}
+function toggleFavorite(num){let a=currentAyahs.find(x=>x.number===num);if(!a)return;if(isFav(a))favorites=favorites.filter(f=>f.number!==num);else favorites.push({number:a.number,text:a.text,surah:currentSurah.name,surahNumber:currentSurah.number,ayahNumber:a.numberInSurah});localStorage.setItem('nq_favorites',JSON.stringify(favorites));renderAyahs()}
+function renderFavorites(){if(!favorites.length){$('favoritesList').innerHTML='<div class="card">لم تضف آيات للمفضلة بعد.</div>';return}$('favoritesList').innerHTML=favorites.map(f=>`<div class="ayah"><div class="ayah-text">${esc(f.text)}</div><div class="ayah-meta">${esc(f.surah)} • الآية ${f.ayahNumber}</div><div class="ayah-actions"><button class="btn mini" onclick="playFav(${f.number})">▶ استمع</button><button class="btn mini" onclick="openSurah(${f.surahNumber})">افتح السورة</button><button class="btn mini" onclick="removeFav(${f.number})">إزالة</button></div></div>`).join('')}
+function playFav(num){let audio=new Audio('https://cdn.islamic.network/quran/audio/128/ar.alafasy/'+num+'.mp3');audio.play().catch(()=>alert('تحقق من اتصال الإنترنت'))}
+function removeFav(num){favorites=favorites.filter(f=>f.number!==num);localStorage.setItem('nq_favorites',JSON.stringify(favorites));renderFavorites()}
+function saveLastRead(ayahNumber){let val={surahNumber:currentSurah.number,surahName:currentSurah.name,ayahNumber};localStorage.setItem('nq_lastread',JSON.stringify(val));alert('تم حفظ موضع القراءة')}
+function renderLastRead(){let v=JSON.parse(localStorage.getItem('nq_lastread')||'null');$('lastReadBox').innerHTML=v?`<p>آخر موضع محفوظ: <strong>${esc(v.surahName)}</strong>، الآية ${v.ayahNumber}</p><button class="btn primary" onclick="openSurah(${v.surahNumber})">افتح السورة</button>`:'لم تحفظ موضع قراءة بعد. افتح سورة واضغط «حفظ الموضع» عند الآية المطلوبة.'}
+function countTasbih(){let n=Number(localStorage.getItem('nq_count')||0)+1;localStorage.setItem('nq_count',n);$('counter').textContent=n}
+function resetTasbih(){if(confirm('هل تريد تصفير العدّاد؟')){localStorage.setItem('nq_count','0');$('counter').textContent='0'}}
+function changeDhikr(){tasbihIndex=(tasbihIndex+1)%tasbihs.length;$('tasbihText').textContent=tasbihs[tasbihIndex]}
+const adhkar={morning:['أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ','سُبْحَانَ اللَّهِ وَبِحَمْدِهِ','اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا'],evening:['أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ','أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ','اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا'],sleep:['بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا','سُبْحَانَ اللَّهِ','الْحَمْدُ لِلَّهِ','اللَّهُ أَكْبَرُ'],wake:['الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ']};
+function showAdhkar(type){$('adhkarContent').innerHTML=adhkar[type].map((x,i)=>`<div class="card" style="margin-bottom:10px"><div class="dhikr">${esc(x)}</div><div class="ayah-meta">ذكر ${i+1}</div></div>`).join('')}
+function newQuiz(){if(!currentAyahs.length){$('quizArea').textContent='افتح سورة من صفحة القرآن أولًا، ثم ارجع للاختبار.';return}let a=currentAyahs[Math.floor(Math.random()*currentAyahs.length)],words=a.text.split(' ').filter(Boolean);if(words.length<3){$('quizArea').textContent='اختر سورة أخرى لسؤال جديد.';return}quizAnswer=words[words.length-1].replace(/[۞۩،؛.!؟]/g,'');let partial=words.slice(0,-1).join(' ')+' …';let choices=[quizAnswer];let pool=currentAyahs.flatMap(x=>x.text.split(' ').filter(w=>w.length>2)).map(w=>w.replace(/[۞۩،؛.!؟]/g,'' )).filter(w=>w&&w!==quizAnswer);while(choices.length<4&&pool.length){let w=pool[Math.floor(Math.random()*pool.length)];if(!choices.includes(w))choices.push(w)}choices.sort(()=>Math.random()-.5);$('quizFeedback').textContent='';$('quizArea').innerHTML=`<div class="ayah-text" style="font-size:21px">${esc(partial)}</div><p>اختر الكلمة التي تكمل الآية:</p><div class="row">${choices.map(c=>`<button class="btn" onclick="checkQuiz(this,${JSON.stringify(c).replace(/</g,'\\u003c')})">${esc(c)}</button>`).join('')}</div>`}
+function checkQuiz(btn,choice){$('quizFeedback').textContent=choice===quizAnswer?'أحسنت! إجابة صحيحة 🌟':'حاول مرة أخرى. الإجابة الصحيحة: '+quizAnswer;document.querySelectorAll('#quizArea button').forEach(b=>b.disabled=true)}
+$('counter').textContent=localStorage.getItem('nq_count')||'0';askName();loadSurahs();
 </script>
 </body>
 </html>
